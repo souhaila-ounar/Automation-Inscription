@@ -16,6 +16,16 @@ export const config = {
     5737: process.env.TOKEN_TUTORAX_STIMULATION || "",
     3269: process.env.TOKEN_TUTORAX_ADMIN || "",
   },
+
+  smtp: {
+    host: process.env.SMTP_HOST || "smtp.example.com",
+    port: parseInt(process.env.SMTP_PORT || "587"),
+    secure: process.env.SMTP_SECURE === "true",
+    auth: {
+      user: process.env.SMTP_USERNAME || "",
+      pass: process.env.SMTP_PASSWORD || "",
+    },
+  },
 };
 
 export const jumelageEndpoint = process.env.PABBLY_ENDPOINT_JUMELAGE!;

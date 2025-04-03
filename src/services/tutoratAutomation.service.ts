@@ -182,7 +182,7 @@ export async function createOrUpdateClientAndStudent(
   job1Payload.dft_contractor_rate = tutorRate;
 
   const createdJob1 = await createJob(branchId, job1Payload);
-  sendJobToAutomations(createdJob1);
+  sendJobToAutomations(createdJob1, studentId, clientId);
   console.log(createdJob1.id);
 
   // assigner teaching skills au Job 1
@@ -232,7 +232,7 @@ export async function createOrUpdateClientAndStudent(
     job2Payload.dft_contractor_rate = tutorRate2;
 
     const createdJob2 = await createJob(branchId, job2Payload);
-    sendJobToAutomations(createdJob2);
+    sendJobToAutomations(createdJob2, studentId, clientId);
     const teachingSkills2 = getFormattedTeachingSkills(
       subjects2.join(", "),
       exactNiveau2 || ""
