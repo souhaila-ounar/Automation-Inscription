@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createOrUpdateClientAndStudent } from "../services/tutoratAutomation.service";
+import { runTutoratAutomation } from "../services/tutorat/tutoratAutomation.service";
 
 export const handleFormSubmission = async (
   req: Request,
@@ -15,15 +15,10 @@ export const handleFormSubmission = async (
         .json({ error: "branchID is required and must be a valid number" });
     }
 
-    const { clientId, studentId } = await createOrUpdateClientAndStudent(
-      formData,
-      branchId
-    );
-
+    await runTutoratAutomation(formData, branchId);
+    console.log("Success!");
     return res.status(200).json({
-      message: "Client and student processed successfully",
-      clientId,
-      studentId,
+      message: "Automatisation exécutée avec succès.",
     });
   } catch (error: any) {
     console.error("Error:", error);

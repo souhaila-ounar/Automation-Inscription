@@ -1,6 +1,6 @@
 import express from "express";
 import { tutoratRoutes } from "./routes/clientRoute";
-
+import { fallbackWorker } from "./workers/fallbackProcessor";
 const app = express();
 const port = 3000;
 
