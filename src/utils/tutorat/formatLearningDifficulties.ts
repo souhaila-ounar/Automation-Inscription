@@ -1,14 +1,16 @@
 export function formatLearningDifficulties(
-  difficultiesRaw: string,
+  difficultiesRaw: string | undefined,
   hasLearningProblem: boolean,
   otherChallengesText: string = ""
 ): string {
+  if (!hasLearningProblem) return "Aucune";
+
   let parsedInput: string[] = [];
 
   try {
     parsedInput = difficultiesRaw ? JSON.parse(difficultiesRaw) : [];
   } catch (error) {
-    console.warn("Difficulties parsing failed :", difficultiesRaw);
+    console.warn("Échec du parsing des difficultés :", difficultiesRaw);
     parsedInput = [];
   }
 
@@ -16,14 +18,10 @@ export function formatLearningDifficulties(
 
   if (parsedInput.includes("Autre(s)")) {
     difficulties = parsedInput.filter((d) => d !== "Autre(s)");
-    if (otherChallengesText) {
-      difficulties.push(`${otherChallengesText}`);
-    } else {
-      difficulties.push("(non précisé)");
-    }
+    difficulties.push(otherChallengesText || "(non précisé)");
   } else {
     difficulties = parsedInput;
   }
 
-  return hasLearningProblem ? difficulties.join(", ") : "Aucune";
+  return difficulties.join(", ");
 }

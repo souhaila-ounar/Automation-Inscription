@@ -43,18 +43,29 @@ export async function runTutoratAutomation(
     exactNiveau: exactNiveau || "",
   });
 
-  await fallbackQueue.add(
-    "check-fallback",
-    {
-      jobId: createdJob1.id,
-      studentId,
-      clientId,
-    },
-    {
-      delay: 7 * 24 * 60 * 60 * 1000, // 7 jours en millisecondes
-      attempts: 1,
+  if (
+    location == "enPresentiel" &&
+    formData.accepte &&
+    formData.accepte.includes("accepte")
+  ) {
+    if (!createdJob1?.id) {
+      throw new Error("job Id undefined.");
     }
-  );
+    await fallbackQueue.add(
+      "check-fallback",
+      {
+        jobId: createdJob1.id,
+        studentId,
+        clientId,
+        branchId,
+        formData,
+      },
+      {
+        delay: 60 * 1000, // 7 * 24 * 60 * 60 * 1000, // 7 jours
+        attempts: 1,
+      }
+    );
+  }
 
   //-------------------- Job2 (facultatif) ------------
   if (formData.Cr_er_une_2e_demande) {
@@ -91,17 +102,25 @@ export async function runTutoratAutomation(
       exactNiveau: n2 || "",
     });
 
-    await fallbackQueue.add(
-      "check-fallback",
-      {
-        jobId: createdJob2.id,
-        studentId,
-        clientId,
-      },
-      {
-        delay: 7 * 24 * 60 * 60 * 1000, // 7 jours en millisecondes
-        attempts: 1,
-      }
-    );
+    if (
+      location == "enPresentiel" &&
+      formData.accepte &&
+      formData.accepte.includes("accepte")
+    ) {
+      await fallbackQueue.add(
+        "check-fallback",
+        {
+          jobId: createdJob2.id,
+          studentId,
+          clientId,
+          branchId,
+          formData,
+        },
+        {
+          delay: 7 * 24 * 60 * 60 * 1000, // 7 jours
+          attempts: 1,
+        }
+      );
+    }
   }
 }

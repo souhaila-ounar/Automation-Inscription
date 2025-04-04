@@ -5,8 +5,14 @@ import { checkAndFallbackToOnline } from "../services/tutorat/fallbackHandler";
 export const fallbackWorker = new Worker(
   "fallback-jobs",
   async (job) => {
-    const { jobId, studentId, clientId } = job.data;
-    await checkAndFallbackToOnline(jobId, studentId, clientId);
+    const data = job.data as {
+      jobId: number;
+      clientId: number;
+      studentId: number;
+      branchId: number;
+      formData: Record<string, any>;
+    };
+    await checkAndFallbackToOnline(data);
   },
   {
     connection: redisConnection,

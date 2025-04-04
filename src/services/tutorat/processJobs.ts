@@ -18,7 +18,7 @@ export async function processJob({
   exactNiveau: string;
 }) {
   const createdJob = await createJob(branchId, jobPayload);
-  await sendJobToAutomations(createdJob, studentId, clientId);
+  // await sendJobToAutomations(createdJob, studentId, clientId);
 
   const teachingSkills = getFormattedTeachingSkills(
     subjects.join(", "),
